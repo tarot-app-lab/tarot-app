@@ -1,0 +1,34 @@
+{
+  "name": "tarot-app",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "latest",
+    "expo": "latest",
+    "expo-router": "latest",
+    "expo-secure-store": "latest",
+    "expo-sqlite": "latest",
+    "nativewind": "latest",
+    "react": "latest",
+    "react-native": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@testing-library/react-native": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "jest": "latest",
+    "jest-expo": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
+  }
+}
