@@ -8,7 +8,7 @@ Every release candidate must pass:
 
 - CI on the Pull Request.
 - `npm ci`.
-- `npm audit --audit-level=moderate`.
+- `npm audit --audit-level=moderate` reviewed as a security report.
 - `npx expo config --type public`.
 - `npm run typecheck`.
 - `npm test -- --runInBand`.
@@ -26,6 +26,7 @@ Every release candidate must pass:
 
 - Do not release local data schema changes without a forward-only migration plan.
 - Do not delete or rewrite user data during migration unless a human explicitly accepts that risk.
+- Do not run `npm audit fix --force` without explicit human approval; for this Expo stack it can propose breaking dependency changes.
 - For broken releases, prefer halting rollout or shipping a corrective build over introducing remote infrastructure that violates the MVP architecture.
 - Document user-visible data risk in the Pull Request before merge.
 

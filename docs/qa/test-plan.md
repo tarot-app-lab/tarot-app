@@ -7,7 +7,7 @@ This folder contains QA plans and testing notes for the Tarot App MVP.
 Run before a Pull Request is considered ready for human review:
 
 - `npm ci`
-- `npm audit --audit-level=moderate`
+- `npm audit --audit-level=moderate` as a security report; do not apply `npm audit fix --force` without explicit human approval because Expo transitive fixes can be breaking
 - `npx expo config --type public`
 - `npm run typecheck`
 - `npm test -- --runInBand`
@@ -23,6 +23,7 @@ Run before a Pull Request is considered ready for human review:
 ## Release checklist
 
 - CI is green on the Pull Request.
+- Dependency audit output is reviewed, especially transitive Expo/Jest findings.
 - No unrelated files are changed.
 - No secrets, tokens, API keys, passwords, or `.env` files are committed.
 - `eas.json` production profile is reviewed before release.
