@@ -1,22 +1,39 @@
-# Backlog
+# MVP Backlog
 
-## MVP
+> Стартовый тестовый образец backlog до подготовки финальной версии.
 
-- Onboarding flow
-- Tarot card catalog
-- Card of the day
-- Spread catalog
-- New reading flow
-- Reading result screen
-- Reading history
-- Settings
-- Offline SQLite storage
+## Release 0.1.0
 
-## Later
+### Epic: Project Foundation
 
-- Account system
-- Cloud sync
-- Subscriptions
-- AI interpretations
+- [ ] Story: Initialize Expo app structure
+- [ ] Story: Configure TypeScript
+- [ ] Story: Configure NativeWind
+- [ ] Story: Configure Expo Router
+- [ ] Story: Configure Jest
+- [ ] Story: Configure CI
 
-Items in the Later section are outside the MVP and must not be implemented without an architecture update and approval.
+### Epic: Cards
+
+- [ ] Story: User can see cards list
+- [ ] Story: User can search cards
+- [ ] Story: User can open card details
+- [ ] Story: User can see upright and reversed meanings
+
+### Epic: Readings
+
+- [ ] Story: User can start one-card reading
+- [ ] Story: User can reveal selected card
+- [ ] Story: User can see reading result
+- [ ] Story: User can save reading to history
+
+### Epic: History
+
+- [ ] Story: User can see previous readings
+- [ ] Story: User can open reading details
+- [ ] Story: User can delete reading
+
+### Epic: Settings
+
+- [ ] Story: User can open settings screen
+- [ ] Story: User can switch theme
