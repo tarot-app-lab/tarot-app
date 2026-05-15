@@ -6,7 +6,7 @@
 
 ### Epic: Project Foundation
 
-- [ ] Story: Initialize Expo app structure
+- [x] Story: Initialize Expo app structure
 - [ ] Story: Configure TypeScript
 - [ ] Story: Configure NativeWind
 - [ ] Story: Configure Expo Router
