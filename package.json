@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "latest",
+    "@react-native/jest-preset": "^0.85.3",
     "@testing-library/react-native": "latest",
     "@types/jest": "latest",
     "@types/react": "latest",
