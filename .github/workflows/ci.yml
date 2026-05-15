@@ -1,21 +1,18 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [main]
-
   push:
-    branches: [main]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build-test:
-    name: Build and test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Temporary successful check
-        run: echo "CI placeholder: project is not initialized yet"
-# trigger rerun
+      - name: Say hello
+        run: echo "CI works"
