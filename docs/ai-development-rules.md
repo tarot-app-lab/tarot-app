@@ -34,3 +34,55 @@ Every AI change must go through human review. Pull Requests should include:
 - why it changed;
 - how it was tested;
 - known risks.
+
+
+## 1. Один Issue = одна задача
+
+Не давать AI огромные задачи.
+
+Правильно:
+
+Implement 3-card spread logic.
+
+Неправильно:
+
+Build entire app.
+
+---
+
+## 2. Одна задача = одна ветка = один PR
+
+---
+
+## 3. AI не имеет права:
+
+- пушить в main;
+- менять unrelated files;
+- добавлять библиотеки без согласования;
+- менять architecture.md без обсуждения;
+- коммитить .env;
+- коммитить API keys.
+
+---
+
+## 4. Все AI-изменения проходят review человеком
+
+---
+
+## 5. Каждый prompt должен содержать:
+
+- Context
+- Goal
+- Allowed files
+- Forbidden files
+- Acceptance criteria
+
+---
+
+## 6. Перед merge человек проверяет:
+
+- CI зеленый?
+- Нет unrelated files?
+- Нет секретов?
+- Нет лишних библиотек?
+- Код соответствует architecture.md?
