@@ -18,6 +18,8 @@ codex/smoke-eas-setup
 ## Что сделано
 
 - Добавлен npm script `smoke:metro`, который запускает `expo start --offline --port 8125`.
+- Добавлены npm scripts для EAS login, whoami, configure, token и типовых preview/production build-команд.
+- GitHub Actions workflow `Mobile Build` усилен preflight-проверкой `EAS_TOKEN`, `eas whoami`, режимом `submit=false` и summary.
 - Добавлена документация `docs/qa/smoke-start.md`.
 - Добавлена документация `docs/operations/eas-google-setup.md`.
 
@@ -26,6 +28,9 @@ codex/smoke-eas-setup
 - `npm run smoke:metro` успешно запустил Expo/Metro.
 - Metro слушал `http://localhost:8125`.
 - Процесс smoke-start был остановлен после проверки.
+- `npm run typecheck` проходит.
+- `npm test -- --runInBand` проходит.
+- `npx expo config --type public` проходит.
 
 ## Ограничения
 
