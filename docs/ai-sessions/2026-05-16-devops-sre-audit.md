@@ -124,4 +124,14 @@ codex/devops-sre-audit
 - `CI` теперь запускается на push в любую ветку, а не только в `main`;
 - причина: после закрытия PR новый push в `codex/devops-sre-audit` не создавал check-run, и удаленная проверка ветки была невозможна без ручного PR.
 
+## Откат Dependabot noise
+
+После добавления `.github/dependabot.yml` GitHub автоматически открыл пачку Dependabot PR с major/minor dependency bumps. Для текущей стадии проекта это создало лишний шум и риск случайного merge breaking updates.
+
+Что исправлено:
+
+- `.github/dependabot.yml` удален;
+- открытые Dependabot PR нужно закрыть без merge;
+- dependency updates остаются ручным решением до появления спокойного release/dependency management процесса.
+
 Исходная архитектура, зависимости, backend/cloud/web и unrelated files не менялись.
