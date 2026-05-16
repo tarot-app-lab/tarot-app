@@ -1,41 +1,56 @@
 # Release Safety
 
-Tarot App is an offline-first mobile MVP. Production readiness is mostly about safe mobile builds, local data reliability, and controlled release flow. Docker, Kubernetes, Terraform, and cloud runtime controls are intentionally out of scope while the app has no backend, web app, or cloud services.
+Tarot App - это offline-first mobile MVP. Production readiness здесь в первую очередь про безопасные mobile builds, надежность локальных данных и контролируемый release flow. Docker, Kubernetes, Terraform и cloud runtime controls намеренно вне scope, пока у приложения нет backend, web app или cloud services.
 
 ## Release gates
 
-Every release candidate must pass:
+Каждый release candidate должен пройти:
 
-- CI on the Pull Request.
+- CI на Pull Request.
 - `npm ci`.
-- `npm audit --audit-level=moderate` reviewed as a security report.
+- `npm audit --audit-level=moderate`, просмотренный как security report.
 - `npx expo config --type public`.
 - `npm run typecheck`.
 - `npm test -- --runInBand`.
 - Expo/Metro smoke-start.
-- Manual iOS and Android smoke checks.
+- Ручные iOS и Android smoke checks.
+- Ручной запуск GitHub workflow `Mobile Build` для целевой platform и EAS profile.
 
 ## EAS profiles
 
-- `development`: development client, internal distribution, `development` channel.
-- `preview`: internal distribution, `preview` channel.
-- `production`: store-ready production channel with build auto-increment.
-- `production-local`: production channel without auto-increment, intended only for local config validation and dry runs.
+- `development`: development client, internal distribution, channel `development`.
+- `preview`: internal distribution, channel `preview`.
+- `production`: store-ready production channel с build auto-increment.
+- `production-local`: production channel без auto-increment, только для локальной config validation и dry runs.
+
+## Mobile artifact builds
+
+Workflow `.github/workflows/mobile-build.yml` запускает реальный EAS build через `eas-cli` major version 12.
+
+Требования:
+
+- `EAS_TOKEN` должен быть настроен как repository secret.
+- Человек выбирает platform и profile через `workflow_dispatch`.
+- Workflow использует `--no-wait`, поэтому статус EAS build artifact нужно проверять в EAS после отправки.
+
+Этот workflow намеренно пока не является required Pull Request check. EAS builds требуют credentials и могут тратить build minutes; если сделать их обязательными до настройки credentials, будут блокироваться все PR.
 
 ## Rollback and recovery rules
 
-- Do not release local data schema changes without a forward-only migration plan.
-- Do not delete or rewrite user data during migration unless a human explicitly accepts that risk.
-- Do not run `npm audit fix --force` without explicit human approval; for this Expo stack it can propose breaking dependency changes.
-- For broken releases, prefer halting rollout or shipping a corrective build over introducing remote infrastructure that violates the MVP architecture.
-- Document user-visible data risk in the Pull Request before merge.
+- Не выпускать изменения local data schema без forward-only migration plan.
+- Не удалять и не перезаписывать user data во время migration, если человек явно не принял этот риск.
+- Не запускать `npm audit fix --force` без явного согласования с человеком; для этого Expo stack команда может предложить breaking dependency changes.
+- Для broken releases предпочитать остановку rollout или corrective build, а не добавление remote infrastructure, нарушающей MVP architecture.
+- Документировать user-visible data risk в Pull Request до merge.
 
 ## Observability expectations
 
-Until a crash reporting strategy is approved, every feature touching local data should expose enough controlled error states for QA to identify:
+Пока crash reporting strategy не утверждена, каждая фича, работающая с локальными данными, должна иметь достаточно controlled error states, чтобы QA мог определить:
 
 - failed local database initialization;
 - failed migration;
 - missing seed data;
 - empty state versus corrupted state;
-- unrecoverable route or navigation errors.
+- unrecoverable route или navigation errors.
+
+Начальная local diagnostics foundation находится в `src/services/diagnostics.ts`. Она записывает structured events в памяти и редактирует sensitive context keys. Это не remote crash reporting system.
