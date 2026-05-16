@@ -21,9 +21,18 @@ on:
           - development
           - preview
           - production
+      submit:
+        description: "Submit the EAS build after preflight checks"
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   contents: read
+
+concurrency:
+  group: mobile-build-${{ github.ref }}-${{ inputs.platform }}-${{ inputs.profile }}
+  cancel-in-progress: false
 
 jobs:
   eas-build:
@@ -45,17 +54,42 @@ jobs:
       - name: Validate Expo config
         run: npx expo config --type public
 
-      - name: Run EAS build
+      - name: Validate EAS token
         env:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
         run: |
           if [ -z "$EAS_TOKEN" ]; then
             echo "EAS_TOKEN secret is required to run mobile artifact builds."
+            echo "Create it with: npx eas-cli@12 token:create"
             exit 1
           fi
 
+          npx --yes eas-cli@12 whoami --non-interactive
+
+      - name: Run EAS build
+        if: ${{ inputs.submit }}
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+        run: |
           npx --yes eas-cli@12 build \
             --platform "${{ inputs.platform }}" \
             --profile "${{ inputs.profile }}" \
             --non-interactive \
             --no-wait
+
+      - name: Skip EAS build submission
+        if: ${{ !inputs.submit }}
+        run: |
+          echo "Preflight checks passed. Build submission was skipped because submit=false."
+
+      - name: Write build summary
+        if: always()
+        run: |
+          {
+            echo "## Mobile Build"
+            echo ""
+            echo "- Platform: ${{ inputs.platform }}"
+            echo "- Profile: ${{ inputs.profile }}"
+            echo "- Submit: ${{ inputs.submit }}"
+            echo "- Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } >> "$GITHUB_STEP_SUMMARY"

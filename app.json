@@ -21,6 +21,12 @@
       "expo-router",
       "expo-sqlite",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f396c80e-8998-498a-a080-1bfad2dfc2ff"
+      }
+    },
+    "owner": "leo_dubovetsky"
   }
 }
