@@ -67,3 +67,20 @@ codex/smoke-eas-setup
 
 - создать Expo access token в web UI;
 - добавить его в GitHub repository secret `EAS_TOKEN`.
+
+## Документация результата
+
+Добавлен подробный русскоязычный итоговый документ:
+
+- `docs/operations/eas-automation-summary.md`
+
+В нем описано:
+
+- зачем нужна автоматизация EAS;
+- какие npm scripts добавлены;
+- зачем нужны wrappers в `scripts/*.cjs`;
+- какой Expo account и EAS project уже настроены;
+- как работает GitHub Actions `Mobile Build`;
+- почему `EAS_TOKEN` остается ручным security-шагом;
+- как запускать build после добавления `EAS_TOKEN`;
+- какие проверки были выполнены.
