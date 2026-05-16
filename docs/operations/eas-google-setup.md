@@ -5,6 +5,8 @@
 В проекте есть:
 
 - npm scripts для локальной настройки EAS;
+- локальный wrapper `scripts/eas-cli.cjs`, чтобы EAS scripts работали даже когда `npm`/`npx` не находятся в Windows PATH;
+- локальный setup-runner `scripts/eas-setup.cjs`, который выполняет SSO login, `whoami`, `eas init` и `build:configure`;
 - GitHub Actions workflow `.github/workflows/mobile-build.yml`;
 - preflight-проверка `EAS_TOKEN` в workflow;
 - проверка Expo config перед отправкой build;
@@ -21,7 +23,13 @@
 & 'C:\Program Files\nodejs\npm.cmd' run eas:login
 ```
 
-Если аккаунт создан через Google, EAS CLI откроет браузер или попросит пройти browser login. Нужно войти тем же Google-аккаунтом.
+Если аккаунт создан через Google и обычный login просит email/password, использовать SSO/browser flow:
+
+```powershell
+& 'C:\Program Files\nodejs\npm.cmd' run eas:login:sso
+```
+
+Нужно войти тем же Google-аккаунтом.
 
 2. Проверить аккаунт:
 
@@ -32,10 +40,16 @@
 3. Связать проект с EAS:
 
 ```powershell
+& 'C:\Program Files\nodejs\npm.cmd' exec --yes --package eas-cli@12 -- eas init --non-interactive --force
+```
+
+4. Настроить EAS Build для iOS и Android:
+
+```powershell
 & 'C:\Program Files\nodejs\npm.cmd' run eas:configure
 ```
 
-Можно выполнить первые три шага одной командой:
+Можно выполнить setup одной командой:
 
 ```powershell
 & 'C:\Program Files\nodejs\npm.cmd' run eas:setup
@@ -43,11 +57,27 @@
 
 ## Создать token для GitHub Actions
 
+В `eas-cli@12` нет команды `token:create`. Token нужно создать в Expo web UI.
+
+Команда ниже печатает правильную ссылку и путь в GitHub:
+
 ```powershell
 & 'C:\Program Files\nodejs\npm.cmd' run eas:token
 ```
 
-Скопировать значение token и добавить его в GitHub:
+Открыть:
+
+```text
+https://expo.dev/accounts/[account]/settings/access-tokens
+```
+
+Для текущего проекта account:
+
+```text
+leo_dubovetsky
+```
+
+После создания token скопировать значение и добавить его в GitHub:
 
 ```text
 Repository -> Settings -> Secrets and variables -> Actions -> New repository secret
