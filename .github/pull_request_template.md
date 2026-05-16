@@ -1,25 +1,25 @@
-## What changed?
+## Что изменилось?
 
 -
 
-## Why?
+## Зачем?
 
 -
 
-## How was it tested?
+## Как тестировалось?
 
 -
 
-## Release and QA checklist
+## Release и QA checklist
 
-- [ ] TypeScript passes
-- [ ] Jest passes
-- [ ] No unrelated files changed
-- [ ] No secrets, tokens, API keys, or passwords committed
-- [ ] No backend, cloud, or web additions for MVP
-- [ ] Offline behavior considered
-- [ ] Rollback or recovery risk considered
+- [ ] TypeScript проходит
+- [ ] Jest проходит
+- [ ] Нет unrelated files
+- [ ] Не закоммичены secrets, tokens, API keys или passwords
+- [ ] Нет backend, cloud или web additions для MVP
+- [ ] Offline behavior учтен
+- [ ] Rollback или recovery risk учтен
 
-## Known risks
+## Известные риски
 
 -

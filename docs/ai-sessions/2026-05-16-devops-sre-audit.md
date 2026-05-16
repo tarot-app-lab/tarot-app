@@ -86,4 +86,52 @@ codex/devops-sre-audit
 - для audit step добавлен `continue-on-error: true`, чтобы security output оставался видимым, но не блокировал merge ложным production gate;
 - `docs/qa/test-plan.md` и `docs/operations/release-safety.md` уточняют, что audit нужно ревьюить вручную и не запускать `npm audit fix --force` без явного согласования.
 
+## Усиление foundation после повторного запроса
+
+После запроса усилить слабые места без готового фичевого backlog были внесены дополнительные изменения:
+
+- smoke-заглушка `expect(true).toBe(true)` заменена на проверки Expo Router entrypoint и quality scripts;
+- добавлены Jest-тесты для SQLite migrations, reading history repository contract и diagnostics;
+- добавлен миграционный каркас SQLite: `src/db/migrations/index.ts`, `databaseSchemaVersion`, `getPendingMigrations`, `applyPendingMigrations`;
+- добавлен repository contract для reading history без UI-фичи: `src/db/repositories/readingHistory.repository.ts`;
+- добавлен локальный diagnostics foundation: `src/services/diagnostics.ts` с redaction чувствительных ключей;
+- добавлен ручной GitHub Actions workflow `.github/workflows/mobile-build.yml` для реального EAS build через `workflow_dispatch` и `EAS_TOKEN`;
+- обновлены `docs/qa/test-plan.md`, `docs/operations/release-safety.md` и `docs/features/reading-history.md`.
+
+Ограничения:
+
+- пользовательские offline-first сценарии карт, раскладов и истории не реализовывались, потому что для них нет готового backlog;
+- remote crash reporting не добавлялся, потому что это новая интеграция/сервис и требует отдельного решения;
+- EAS build workflow не сделан required PR check, потому что без `EAS_TOKEN` и release credentials он будет блокировать все PR.
+
+Проверки после усиления:
+
+- `npm ci` проходит;
+- `npm audit --audit-level=moderate` локально показывает `0 vulnerabilities`;
+- `npx expo config --type public` проходит;
+- `npm run typecheck` проходит;
+- `npm test -- --runInBand` проходит: 5 test suites, 13 tests;
+- Expo/Metro smoke-start в этом проходе не выполнялся, потому что запуск команды с повышенными правами был отклонен пользователем.
+
+Дополнительная правка по документации:
+
+- добавленная документация по QA/release safety переведена на русский по возможности;
+- `.github/pull_request_template.md` также переведен на русский, потому что используется как рабочий документ review;
+- технические названия workflow, команд, файлов и API оставлены на английском.
+
+Дополнительная CI-правка:
+
+- `CI` теперь запускается на push в любую ветку, а не только в `main`;
+- причина: после закрытия PR новый push в `codex/devops-sre-audit` не создавал check-run, и удаленная проверка ветки была невозможна без ручного PR.
+
+## Откат Dependabot noise
+
+После добавления `.github/dependabot.yml` GitHub автоматически открыл пачку Dependabot PR с major/minor dependency bumps. Для текущей стадии проекта это создало лишний шум и риск случайного merge breaking updates.
+
+Что исправлено:
+
+- `.github/dependabot.yml` удален;
+- открытые Dependabot PR нужно закрыть без merge;
+- dependency updates остаются ручным решением до появления спокойного release/dependency management процесса.
+
 Исходная архитектура, зависимости, backend/cloud/web и unrelated files не менялись.
