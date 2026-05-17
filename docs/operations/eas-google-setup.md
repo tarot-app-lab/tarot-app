@@ -108,7 +108,9 @@ Value:
    - `profile`: обычно `preview` для первой проверки;
    - `submit`: `true`, если нужно отправить build в EAS.
 
-Если нужно проверить только preflight без отправки build, выбрать `submit=false`.
+Если нужно проверить только preflight без отправки build, выбрать `submit=false`. В этом режиме `EAS_TOKEN` не нужен.
+
+Если выбрать `submit=true`, workflow потребует GitHub secret `EAS_TOKEN` и отправит build в EAS.
 
 Workflow использует `--no-wait`, поэтому итоговый статус и artifact нужно смотреть в Expo/EAS dashboard.
 

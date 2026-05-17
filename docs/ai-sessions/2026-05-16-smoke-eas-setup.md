@@ -62,6 +62,7 @@ codex/smoke-eas-setup
 - `npm run eas:setup` успешно выполнен на аккаунте `leo_dubovetsky`;
 - EAS project уже связан с project ID `f396c80e-8998-498a-a080-1bfad2dfc2ff`;
 - `npm run eas:token` теперь печатает ссылку на Expo access tokens и путь добавления GitHub secret, вместо вызова несуществующей команды `token:create`.
+- `Mobile Build` исправлен: `EAS_TOKEN` проверяется только при `submit=true`; при `submit=false` workflow проходит preflight без токена и не отправляет build.
 
 Оставшийся ручной шаг:
 
