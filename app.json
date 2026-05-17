@@ -10,9 +10,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.leodubovetsky.tarotapp"
     },
     "android": {
+      "package": "com.leodubovetsky.tarotapp",
       "adaptiveIcon": {
         "backgroundColor": "#111827"
       }
