@@ -58,6 +58,7 @@ jobs:
         if: ${{ inputs.submit }}
         env:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.EAS_TOKEN }}
         run: |
           if [ -z "$EAS_TOKEN" ]; then
             echo "EAS_TOKEN secret is required to run mobile artifact builds."
@@ -78,6 +79,7 @@ jobs:
         if: ${{ inputs.submit }}
         env:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.EAS_TOKEN }}
         run: |
           npx --yes eas-cli@12 build \
             --platform "${{ inputs.platform }}" \
