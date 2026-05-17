@@ -88,13 +88,15 @@ Inputs:
 - `profile`: `development`, `preview` или `production`;
 - `submit`: `true` или `false`.
 
-Если `submit=false`, workflow выполняет preflight-проверки, но не отправляет build в EAS.
+Если `submit=false`, workflow выполняет preflight-проверки без `EAS_TOKEN`, но не отправляет build в EAS.
 
 Если `submit=true`, workflow запускает:
 
 ```text
 eas build --platform <platform> --profile <profile> --non-interactive --no-wait
 ```
+
+При `submit=true` workflow требует GitHub secret `EAS_TOKEN`. Если secret отсутствует, workflow падает с прямой ссылкой на страницу создания Expo access token.
 
 ## Что осталось ручным
 
@@ -157,4 +159,3 @@ Build отправляется с `--no-wait`, поэтому итоговый a
 - `eas config --profile preview --platform android`.
 
 Все проверки прошли, кроме intentionally manual шага создания `EAS_TOKEN`.
-

@@ -55,16 +55,24 @@ jobs:
         run: npx expo config --type public
 
       - name: Validate EAS token
+        if: ${{ inputs.submit }}
         env:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
         run: |
           if [ -z "$EAS_TOKEN" ]; then
             echo "EAS_TOKEN secret is required to run mobile artifact builds."
-            echo "Create it with: npx eas-cli@12 token:create"
+            echo "Create an Expo access token in the Expo web UI:"
+            echo "https://expo.dev/accounts/leo_dubovetsky/settings/access-tokens"
+            echo "Then add it to GitHub repository secrets as EAS_TOKEN."
             exit 1
           fi
 
           npx --yes eas-cli@12 whoami --non-interactive
+
+      - name: Skip EAS token validation
+        if: ${{ !inputs.submit }}
+        run: |
+          echo "EAS_TOKEN validation skipped because submit=false."
 
       - name: Run EAS build
         if: ${{ inputs.submit }}
@@ -80,7 +88,7 @@ jobs:
       - name: Skip EAS build submission
         if: ${{ !inputs.submit }}
         run: |
-          echo "Preflight checks passed. Build submission was skipped because submit=false."
+          echo "Preflight checks passed without EAS_TOKEN. Build submission was skipped because submit=false."
 
       - name: Write build summary
         if: always()
