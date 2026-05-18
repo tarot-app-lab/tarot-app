@@ -3,6 +3,10 @@
     "name": "Tarot App",
     "slug": "tarot-app",
     "version": "0.1.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "scheme": "tarotapp",
     "userInterfaceStyle": "automatic",
