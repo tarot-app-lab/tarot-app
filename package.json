@@ -19,7 +19,8 @@
     "eas:build:preview:all": "node scripts/eas-cli.cjs build --platform all --profile preview",
     "eas:build:production:all": "node scripts/eas-cli.cjs build --platform all --profile production",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run typecheck && npm test -- --runInBand && npx expo config --type public"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "3.0.2",

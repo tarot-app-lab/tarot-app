@@ -42,4 +42,27 @@ jobs:
         run: npm run typecheck
 
       - name: Jest
-        run: npm test -- --runInBand
+        run: npm test -- --runInBand --ci --json --outputFile=jest-results.json
+
+      - name: Upload Jest results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest-results
+          path: jest-results.json
+          if-no-files-found: warn
+
+      - name: Write CI summary
+        if: always()
+        run: |
+          {
+            echo "## CI quality gate"
+            echo ""
+            echo "- Install: npm ci"
+            echo "- Audit: npm audit --audit-level=moderate (report only)"
+            echo "- Expo config: npx expo config --type public"
+            echo "- TypeScript: npm run typecheck"
+            echo "- Jest: npm test -- --runInBand --ci"
+            echo ""
+            echo "Jest JSON results are uploaded as the \`jest-results\` artifact when the test step creates the file."
+          } >> "$GITHUB_STEP_SUMMARY"
